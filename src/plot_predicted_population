@@ -1,0 +1,40 @@
+#!/usr/bin/env python
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from feral_cat_eradication import (
+    calculate_max_lambda,
+    calculate_stable_stage,
+    calculate_reproductive_value,
+    calculate_generation_function,
+)
+
+
+max_age = 7
+leslie_matrix = pd.read_csv("data/leslie_matrix.csv")
+max_lambda = calculate_max_lambda(leslie_matrix)
+max_lambda_log = np.log(max_lambda)
+stable_stage_distribution = calculate_stable_stage(leslie_matrix)
+R0 = calculate_reproductive_value(leslie_matrix)
+generation_lenght = calculate_generation_function(leslie_matrix)
+initial_population = 1629
+carring_capacity = 2 * initial_population
+carring_capacity_array = np.linspace(1, carring_capacity, 5)
+initial_population_array = stable_stage_distribution * initial_population
+
+initial_year = 2020
+end_year = 2030
+duration_years = end_year - initial_year
+years_array = np.arange(initial_year, end_year + 1)
+
+population_matrix = pd.DataFrame(np.zeros((max_age, duration_years)))
+population_matrix[0] = initial_population_array[0]
+
+for i in range(duration_years):
+    print(i)
+    population_matrix[i + 1] = np.matmul(leslie_matrix, population_matrix[i].to_numpy())
+
+
+population_growth_predicted = population_matrix.sum(axis=0)
+plt.plot(years_array, population_growth_predicted)
