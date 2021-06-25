@@ -4,8 +4,5 @@ setup(
     name="feral_cat_eradication",
     version="0.1.0",
     packages=find_packages(),
-    install_requires=[
-        "numpy",
-        "pandas"
-    ],
+    install_requires=["numpy", "pandas"],
 )
