@@ -12,14 +12,16 @@ define lint
         ${1}
 endef
 
-.PHONY: all check clean coverage format install linter mutants tests
+.PHONY: all check clean coverage format install linter mutants results tests
 
 check:
 	black --check --line-length 100 ${module}
 	black --check --line-length 100 setup.py
+	black --check --line-length 100 src/plot_predicted_population
 	black --check --line-length 100 tests
 	flake8 --max-line-length 100 ${module}
 	flake8 --max-line-length 100 setup.py
+	flake8 --max-line-length 100 src/plot_predicted_population
 	flake8 --max-line-length 100 tests
 
 clean:
@@ -42,6 +44,9 @@ linter:
 
 mutants: install
 	mutmut run --paths-to-mutate ${module}
+
+results:
+	python src/plot_predicted_population
 
 tests: install
 	pytest --verbose
