@@ -12,7 +12,7 @@ from feral_cat_eradication import (
 
 
 max_age = 7
-leslie_matrix = pd.read_csv("data/leslie_matrix.csv")
+leslie_matrix = pd.read_csv("feral_cat_eradication/data/leslie_matrix.csv")
 max_lambda = calculate_max_lambda(leslie_matrix)
 max_lambda_log = np.log(max_lambda)
 stable_stage_distribution = calculate_stable_stage(leslie_matrix)
@@ -20,7 +20,6 @@ R0 = calculate_reproductive_value(leslie_matrix)
 generation_lenght = calculate_generation_function(leslie_matrix)
 initial_population = 1629
 carring_capacity = 2 * initial_population
-carring_capacity_array = np.linspace(1, carring_capacity, 5)
 initial_population_array = stable_stage_distribution * initial_population
 
 initial_year = 2020
